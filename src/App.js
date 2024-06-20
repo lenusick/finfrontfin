@@ -15,6 +15,7 @@ function App() {
   const [searchCode, setSearchCode] = useState('');
   const [category, setCategory] = useState('');
   const [filteredCodes, setFilteredCodes] = useState([]);
+    const [buttonColors, setButtonColors] = useState(['#CCFA7D', '#FAE97D', '#A191B5', '#C2D2A8', '#7A7762', '#9DDBCC']);
 
   const BASE_URL = "https://http.cat/";
 
@@ -41,6 +42,7 @@ function App() {
   const handleCategoryChange = (cat) => {
     setCategory(cat);
     setSelectedCode(null);
+    shuffleColors();
   };
 
   const handleSearchChange = (e) => {
@@ -59,6 +61,12 @@ function App() {
     setSelectedCode(null);
     setSearchCode('');
     setCategory('');
+    shuffleColors();
+  };
+
+  const shuffleColors = () => {
+    const shuffledColors = [...buttonColors].sort(() => Math.random() - 0.5);
+    setButtonColors(shuffledColors.slice(0, 6));
   };
 
   return (
@@ -67,12 +75,12 @@ function App() {
         <Container className="d-block mw-75">
           <h1 className="text-center" style={{ color: 'white' }} onClick={handleReset}>HTTP CAT</h1>
           <Nav className="mx-auto d-flex justify-content-between">
-            <Button variant='light' style={{ background: '#FFFFFF', color: '#3B1347' }} onClick={() => handleCategoryChange('0xx')}>0xx</Button>{' '}
-            <Button variant='light' style={{ background: '#FFFFFF', color: '#3B1347' }} onClick={() => handleCategoryChange('1xx')}>1xx</Button>{' '}
-            <Button variant='light' style={{ background: '#FFFFFF', color: '#3B1347' }} onClick={() => handleCategoryChange('2xx')}>2xx</Button>{' '}
-            <Button variant='light' style={{ background: '#FFFFFF', color: '#3B1347' }} onClick={() => handleCategoryChange('3xx')}>3xx</Button>{' '}
-            <Button variant='light' style={{ background: '#FFFFFF', color: '#3B1347' }} onClick={() => handleCategoryChange('4xx')}>4xx</Button>{' '}
-            <Button variant='light' style={{ background: '#FFFFFF', color: '#3B1347' }} onClick={() => handleCategoryChange('5xx')}>5xx</Button>{' '}
+            <Button variant='light' style={{ background: buttonColors[0]}} onClick={() => handleCategoryChange('0xx')}>0xx</Button>{' '}
+            <Button variant='light' style={{ background: buttonColors[1]}} onClick={() => handleCategoryChange('1xx')}>1xx</Button>{' '}
+            <Button variant='light' style={{ background: buttonColors[2]}} onClick={() => handleCategoryChange('2xx')}>2xx</Button>{' '}
+            <Button variant='light' style={{ background: buttonColors[3]}} onClick={() => handleCategoryChange('3xx')}>3xx</Button>{' '}
+            <Button variant='light' style={{ background: buttonColors[4]}} onClick={() => handleCategoryChange('4xx')}>4xx</Button>{' '}
+            <Button variant='light' style={{ background: buttonColors[5]}} onClick={() => handleCategoryChange('5xx')}>5xx</Button>{' '}
           </Nav>
         </Container>
       </Navbar>
@@ -87,14 +95,9 @@ function App() {
             )}
           </Row>
 
-          <Form onSubmit={handleSearchSubmit} className="d-flex justify-content-between">
             <Form.Group className="mb-3 me-2 flex-grow-1">
               <Form.Control style={{ background: '#ffffff'}} type="text" placeholder="Введите HTTP Код" value={searchCode} onChange={handleSearchChange} />
             </Form.Group>
-            <Button style={{ background: '#3B1347', color: 'white', borderRadius: '20px', height: '40px' }} type="submit">
-              Поиск
-            </Button>
-          </Form>
 
           <Row className="justify-content-center mt-3">
             {filteredCodes.map(code => (
